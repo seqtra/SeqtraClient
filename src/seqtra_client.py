@@ -41,6 +41,8 @@ class SeqtraClient:
             "strategy": strategy
         }
         
+        if not chunk_only:
+            print("This could take some time as LLM generates the answer for the given query...")
         query_response, time = send_request(os.path.join(self.url, "query"), req_body=query_req_body, headers=self.headers)
         check_response(query_response)
         print("Query time:", time)
