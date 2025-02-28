@@ -1,0 +1,8 @@
+api_token: "seq-trialapikey"
+project_name: test_project
+url: "http://0.0.0.0:8000/" #local host url where seqtra rag is running
+file_dir: "./Files"
+query: "Difference between graphDB and graphRetriever"
+num_seed_nodes: 1
+chunk_only: true
+strategy: "graph"
