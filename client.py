@@ -6,7 +6,7 @@ from omegaconf import OmegaConf
 from src.seqtra_client import SeqtraClient
     
 req_cfg = OmegaConf.load("./config/request.yaml")
-
+os.makedirs("results", exist_ok=True)
 seqtra = SeqtraClient(api_token=req_cfg.api_token, project_name=req_cfg.project_name, url=req_cfg.url)
 seqtra.ingest(req_cfg.file_dir)
 
@@ -18,6 +18,7 @@ query_resp = seqtra.query(
 )
 
 save_file =  f"results/resp_{req_cfg.strategy}_{datetime.datetime.now()}.json"
+
 with open(save_file, "w") as fp:
     json.dump(query_resp, fp)
     
