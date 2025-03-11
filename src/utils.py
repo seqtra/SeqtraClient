@@ -57,4 +57,9 @@ def upload_multiple_files(
     
     
 def check_response(resp):
-    resp.raise_for_status()
+    try:
+        resp.raise_for_status()
+    except Exception as e:
+        resp = e.response.json()
+        message = resp["detail"] if resp.get("detail") else resp["message"]
+        raise Exception(message)
