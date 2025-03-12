@@ -1,3 +1,4 @@
+<img src="./images/logo1.svg" width="800"><br>
 # SeqtraClient
 Seqtra combines chunking and retrieving in one stage, i.e. chunking only with respect to the query during retrieval rather than defining chunk boundary during the ingestion phase. This strategy is known as late chunking in literature.
 ## Setup
@@ -53,6 +54,8 @@ from src.seqtra_client import SeqtraClient
 req_cfg = OmegaConf.load("./config/request.yaml")
 SeqtraClient.remove(url=req_cfg.url, project_name=req_cfg.project_name, api_token=req_cfg.api_token)
 ```
+## Benchmark
+<img src="./images/benchmark.jpeg" width="500"><br>
 ## Future Releases
 1. Speed Improvements
 2. Chunking improvements so that relevance of retrieved chunks is more tied to the query further optimizing the chunk size and number.
