@@ -63,3 +63,10 @@ def check_response(resp):
         resp = e.response.json()
         message = resp["detail"] if resp.get("detail") else resp["message"]
         raise Exception(message)
+    
+def delete_request(url, project_name, headers):
+    complete_url = os.path.join(url, "delete", project_name)
+    
+    response = requests.delete(complete_url, headers=headers)
+    
+    return response

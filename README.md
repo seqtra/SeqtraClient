@@ -42,6 +42,17 @@ Keys:
 3. **"graph"**: JSON Object with "nodes" and "edges" keys. Each is a list of JSON objects each representing a graph node in "nodes" case, while a graph edge in "edges" case. This graph represents relationship among chunks in "chunks" key. if, for example, num_seed_node is set to 1, and you have used one of graph strategies, one of the chunks is the seed node, and additional nodes are retrieved due to their links to the seed node as extracted during the ingestion stage. "nodes" data also contains pdf name, page number and bounding box information to locate the exact section of the chunk in the pdf. Bounding box is in the format of (left, top, width, height).
 
 You may further rerank and filter the retrieved chunks if it fits your use case.
+
+## Delete project
+To delete project use the following code:
+```python
+from omegaconf import OmegaConf
+
+from src.seqtra_client import SeqtraClient
+    
+req_cfg = OmegaConf.load("./config/request.yaml")
+SeqtraClient.remove(url=req_cfg.url, project_name=req_cfg.project_name, api_token=req_cfg.api_token)
+```
 ## Future Releases
 1. Speed Improvements
 2. Chunking improvements so that relevance of retrieved chunks is more tied to the query further optimizing the chunk size and number.

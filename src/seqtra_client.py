@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import os
 import glob
 
-from src.utils import send_request, upload_multiple_files, check_response
+from src.utils import send_request, upload_multiple_files, check_response, delete_request
 
 @dataclass
 class SeqtraClient:
@@ -48,5 +48,14 @@ class SeqtraClient:
         print("Query time:", time)
         
         return query_response.json()
+    @staticmethod
+    def remove(url, project_name, api_token):
+        print("Removing project from the server...")
+        headers = {
+            "Seqtra-token": api_token
+        }
+        resp = delete_request(url, project_name, headers)
+        check_response(resp)
+        print(resp.json()["message"])
         
         
