@@ -12,18 +12,19 @@ Create an environment and do:
 ```bash
     pip install -r requirements.txt
 ```
-To test the client if it runs without issue, run:
-```bash
-    python client.py
-```
+
 
 ## Test on your own input
 In config/request.yaml file:
-1. Change the value of project_name to create different file collection. Make sure to do this in order to not mix up your personal files with already existing test file or segregate the knowledge base according to data or application domain. This will also avoid unintentionally reducing the page limit available.
-2. Replace the folder path in file_dir key with your folder path where the PDF files to be uploaded are stored. Please note that we have 100 total page (single or multiple PDFs) limit currently.
-3. Replace the query in query key with your own query
-4. Run "python client.py".
-5. The results will be saved under results folder in the form of JSON.
+1. Change the value of api_token to provided Seqtra API token.
+2. Change the value of project_name to create different file collection. Make sure to do this in order to not mix up your personal files with already existing test file or segregate the knowledge base according to data or application domain. This will also avoid unintentionally reducing the page limit available.
+3. Replace the folder path in file_dir key with your folder path where the PDF files to be uploaded are stored. Please note that we have 100 total page (single or multiple PDFs) limit currently.
+4. Replace the query in query key with your own query
+5. You can skip steps 6 and 7 if you assign chunk_only to true.
+6. Replace llm with preferred choice between "claude" and "openai"
+7. Add your LLM API key to llm_key
+8. Run "python client.py".
+9. The results will be saved under results folder in the form of JSON.
 
 The description of the rest of the parameters in request.yaml file are discussed below:
 1. **chunk_only**: Setting this to false provides the answer to the query using LLM along with the retrieved chunks. Setting it to true provides you with only the relevant chunks.
@@ -55,6 +56,7 @@ req_cfg = OmegaConf.load("./config/request.yaml")
 SeqtraClient.remove(url=req_cfg.url, project_name=req_cfg.project_name, api_token=req_cfg.api_token)
 ```
 ## Benchmark
+Here, we can observe that seqtra outperforms conventional vector-based retrieval. We also see that the jump between each top-k performance is lower in the case of seqtra. That means we demonstrate a better performance than top 10 retrieval of vector-based RAG with fewer seed node retrievals.
 <img src="./images/benchmark.jpeg" width="500"><br>
 ## Future Releases
 1. Speed Improvements

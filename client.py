@@ -7,7 +7,10 @@ from src.seqtra_client import SeqtraClient
     
 req_cfg = OmegaConf.load("./config/request.yaml")
 os.makedirs("results", exist_ok=True)
-seqtra = SeqtraClient(api_token=req_cfg.api_token, project_name=req_cfg.project_name, url=req_cfg.url)
+seqtra = SeqtraClient(
+    api_token=req_cfg.api_token, project_name=req_cfg.project_name, url=req_cfg.url,
+    llm=req_cfg.llm, llm_key=req_cfg.llm_key
+)
 seqtra.ingest(req_cfg.file_dir)
 
 query_resp = seqtra.query(

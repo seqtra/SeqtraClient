@@ -9,13 +9,17 @@ class SeqtraClient:
     api_token: str
     project_name: str
     url: str = "http://0.0.0.0:8000/"
+    llm: str = "claude"
+    llm_key: str = "Your Claude API Key"
     
     def __post_init__(self):
         self.headers = {
             "Seqtra-token": self.api_token
         }
         self.init_req_body = {
-            "project_name": self.project_name
+            "project_name": self.project_name,
+            "llm": self.llm,
+            "llm_key": self.llm_key
         }
         init_response, time = send_request(os.path.join(self.url, "init"), req_body=self.init_req_body, headers=self.headers)
         check_response(init_response)

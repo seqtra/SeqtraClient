@@ -1,8 +1,10 @@
-api_token: "seq-trialapikey"
+api_token: Your Seqtra API key
 project_name: test_project
 url: "http://0.0.0.0:8000/" #local host url where seqtra rag is running
-file_dir: "./Files"
-query: "How can the Board and the CCO manage control functions?"
+llm: claude
+llm_key: Your Claude API Key
+file_dir: ./Files
+query: How can the Board and the CCO manage control functions?
 num_seed_nodes: 1
 chunk_only: false
-strategy: "graph_extended"
+strategy: graph_extended
