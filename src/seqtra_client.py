@@ -23,7 +23,8 @@ class SeqtraClient:
         }
         init_response, time = send_request(os.path.join(self.url, "init"), req_body=self.init_req_body, headers=self.headers)
         check_response(init_response)
-        print(init_response.json()["message"])
+        self.init_status = init_response.json()["message"]
+        print(self.init_status)
         print("Initialization time:", time)
             
     
@@ -32,8 +33,10 @@ class SeqtraClient:
         file_paths = glob.glob(os.path.join(input_dir, "*.pdf"))
         file_resp, time = upload_multiple_files(file_paths, os.path.join(self.url, "ingest"), headers=self.headers, extra_data=self.init_req_body)
         check_response(file_resp)
-        print(file_resp.json()["message"])
+        self.file_resp = file_resp.json()["message"]
+        print(self.file_resp)
         print("Ingestion time:", time)
+        
         
     def query(self, query: str, num_seed_nodes: int = 1, chunk_only: bool = True, strategy: str = "graph_extended"):
         

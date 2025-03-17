@@ -1,6 +1,6 @@
 api_token: Your Seqtra API key
 project_name: test_project
-url: "http://0.0.0.0:8000/" #local host url where seqtra rag is running
+url: http://0.0.0.0:8000/
 llm: claude
 llm_key: Your Claude API Key
 file_dir: ./Files

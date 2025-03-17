@@ -3,6 +3,8 @@ import datetime
 import requests
 from typing import Optional, Dict, Any
 import json
+from st_link_analysis import st_link_analysis, NodeStyle, EdgeStyle
+import uuid
 
 
 def send_request(url, req_body=None, headers=None, files=None, data=None):
@@ -70,3 +72,20 @@ def delete_request(url, project_name, headers):
     response = requests.delete(complete_url, headers=headers)
     
     return response
+
+def visualize_graph(graph, chunks):
+    id2chunk = {v: k for k,v in chunks.items()}
+    p_graph = {
+        "nodes": [{"data": {"chunk_id": id2chunk[n["id"]] , **{k:v for k, v in n.items()}} if n["label"] == "chunk" else n} for n in graph["nodes"]],
+        "edges": [{"data": {"id": uuid.uuid4().hex, "source": n["source_id"], "target": n["target_id"], "label": n["label"]}} for n in graph["edges"]]
+    }
+    node_styles = [
+        NodeStyle("chunk", "#FF7F3E",caption="chunk_id", icon="description"),
+        NodeStyle("topic", "#2A629A", caption="text", icon="inventory"),
+    ]
+
+    edge_styles = [
+        EdgeStyle("common_topic_of", color="#2A629A", caption='label', directed=True, curve_style="haystack"),
+        EdgeStyle("has_link", color="#FF7F3E", caption='label', directed=True, curve_style="haystack"),
+    ]
+    st_link_analysis(p_graph,"cola", node_styles, edge_styles)

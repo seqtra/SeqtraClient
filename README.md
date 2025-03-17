@@ -1,6 +1,6 @@
 <img src="./images/logo1.svg" width="800"><br>
 # SeqtraClient
-Seqtra combines chunking and retrieving in one stage, i.e. chunking only with respect to the query during retrieval rather than defining chunk boundary during the ingestion phase. This strategy is known as late chunking in literature.
+Seqtra combines chunking and retrieving in one stage, i.e. chunking only with respect to the query during retrieval rather than defining chunk boundary during the ingestion phase. This strategy is known as late chunking in literature. Please note that we only accept PDFs for now.
 ## Setup
 Python Version: Python 3.10.16<br>
 
@@ -15,6 +15,13 @@ Create an environment and do:
 
 
 ## Test on your own input
+### Using UI
+Run the following:
+```python
+    streamlit run client_ui.py
+```
+## Using Code
+(The following description also applies to fields you see on UI)
 In config/request.yaml file:
 1. Change the value of api_token to provided Seqtra API token.
 2. Change the value of project_name to create different file collection. Make sure to do this in order to not mix up your personal files with already existing test file or segregate the knowledge base according to data or application domain. This will also avoid unintentionally reducing the page limit available.
@@ -38,6 +45,7 @@ You may explore the strategy and adopt the most optimal one for your use case an
 3. **num_seed_nodes**: This is equivalent to topk parameter in RAG. It is named so in our service, due to the presence of graph linkages and traversal during chunking and retrieval. You may optimize this for your use case.
 
 ## How to Interpret the output JSON
+(These are visualized if you use the UI)
 Keys:
 1. **"chunks"**: JSON object in the format of ("chunk_i", "chunk_id") key value pairs, where i runs from 1 to n (number of chunks retrieved). "chunk_id" represents node id in the graph database.
 2. **"answer"**: Answer to the given query based on retrieved chunks. It will be an empty string if "chunk_only" is set to true.

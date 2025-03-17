@@ -1,2 +1,4 @@
 omegaconf==2.3.0
 requests==2.32.3
+st_link_analysis==0.3.0
+streamlit==1.43.2
