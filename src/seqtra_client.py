@@ -65,4 +65,6 @@ class SeqtraClient:
         check_response(resp)
         print(resp.json()["message"])
         
+        return resp.json()["message"]
+        
         
