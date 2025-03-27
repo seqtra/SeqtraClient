@@ -1,6 +1,6 @@
 api_token: Your Seqtra API key
 project_name: test_project
-url: http://35.242.152.32/
+url: https://api.seqtra.com/
 llm: claude
 llm_key: Your Claude API Key
 file_dir: ./Files
