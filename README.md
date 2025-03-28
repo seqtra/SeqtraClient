@@ -49,13 +49,13 @@ In config/request.yaml file:
 
 1. Change the value of api_token to provided Seqtra API token.
 2. Change the value of project_name to create different file collection. Make sure to do this in order to not mix up your personal files with already existing test file or segregate the knowledge base according to data or application domain. This will also avoid unintentionally reducing the page limit available.
-3. Replace the folder path in file_dir key with your folder path where the PDF files to be uploaded are stored. Please note that we have 100 total page (single or multiple PDFs) limit currently.
+3. Replace the folder path in file_dir key with your folder path where the PDF files to be uploaded are stored. Please note that we have 100 total page (single or multiple PDFs) limit currently. There is a file upload field if you are using UI.
 4. Replace the query in query key with your own query
 5. You can skip steps 6 and 7 if you assign chunk_only to true.
 6. Replace llm with preferred choice between "claude" and "openai"
 7. Add your LLM API key to llm_key
-8. Run "python client.py".
-9. The results will be saved under results folder in the form of JSON.
+8. Run "python client.py". For UI, the command is in the previous section.
+9. The results will be saved under results folder in the form of JSON. You need to select the checkbox in order to save the results when using UI.
 
 The description of the rest of the parameters in request.yaml file are discussed below:
 
@@ -82,7 +82,7 @@ You may further rerank and filter the retrieved chunks if it fits your use case.
 
 ## Delete project
 
-To delete project use the following code:
+UI has a delete project button, but to do it through the code, use the following:
 
 ```python
 from omegaconf import OmegaConf

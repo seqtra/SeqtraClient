@@ -23,7 +23,8 @@ def upload_multiple_files(
         file_paths: list[str],
         url: str = '/upload',
         headers: Optional[Dict[str, str]] = None,
-        extra_data: Optional[Dict[str, Any]] = None
+        extra_data: Optional[Dict[str, Any]] = None,
+        bytes_data = None
 ):
         
         # Prepare headers
@@ -33,12 +34,15 @@ def upload_multiple_files(
         files = []
         opened_files = []
         
-        for file_path in file_paths:
-            if not os.path.exists(file_path):
-                raise FileNotFoundError(f"File not found: {file_path}")
-            
-            file = open(file_path, 'rb')
-            opened_files.append(file)
+        for i, file_path in enumerate(file_paths):
+            if not bytes_data:
+                if not os.path.exists(file_path):
+                    raise FileNotFoundError(f"File not found: {file_path}")
+            if bytes_data:
+                file = bytes_data[i]
+            else:
+                file = open(file_path, 'rb')
+                opened_files.append(file)
             files.append(
                 ("files", (os.path.basename(file_path), file, 'application/octet-stream'))
             )
