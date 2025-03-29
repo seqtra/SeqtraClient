@@ -17,10 +17,19 @@ st.write("# Welcome to Seqtra! 👋")
 try:
     with st.sidebar:
         st.write("## Set up all options properly before submitting ")
+        #file_dir = st.text_input("File Directory Path: ", req_cfg.file_dir, help="Folder path where the PDF files to be uploaded are stored. Please note that we have 100 total page (single or multiple PDFs) limit currently.")
+        uploaded_files = st.file_uploader("Choose files to upload", type="pdf", accept_multiple_files=True)
+        filenames = []
+        file_bytes = []
+        if uploaded_files:
+            for uploaded_file in uploaded_files:
+                bytes_data = uploaded_file.read()
+                filenames.append(uploaded_file.name)
+                file_bytes.append(bytes_data)
+            
         st.session_state.is_llm_disabled = True
         api_token = st.text_input("Seqtra API key: ", req_cfg.api_token)
         project_name = st.text_input("Project Name:", req_cfg.project_name, help="Project name for your current file collection.  Make sure to change this in order to not mix up your personal files with already existing test file or to segregate the knowledge base according to data or application domain. This will also avoid unintentionally reducing the page limit available.")
-        file_dir = st.text_input("File Directory Path: ", req_cfg.file_dir, help="Folder path where the PDF files to be uploaded are stored. Please note that we have 100 total page (single or multiple PDFs) limit currently.")
         chunk_opt = st.selectbox("Chunk Only?", options=["True", "False"], help="If true, LLM is not used to generate chunk summary")
         chunk_opt = True if chunk_opt == "True" else False
         if not chunk_opt:
@@ -36,13 +45,15 @@ try:
             st.success(message)
     query = st.text_area("Your Query:", req_cfg.query)
     if st.button("Submit", type="primary"):
+        if not filenames:
+            raise Exception("No Files uploaded")
         with st.spinner("Ingestion: This can take time for uploading and ingesting the data into our database...", show_time=True):
             seqtra = SeqtraClient(
                 api_token=api_token, project_name=project_name, url=req_cfg.url,
                 llm=llm_opt, llm_key=llm_token
             )
             st.success(seqtra.init_status)
-            seqtra.ingest(file_dir)
+            seqtra.ingest_bytes(filenames, file_bytes)
             st.success(seqtra.file_resp)
         if not chunk_opt:
             with st.spinner("This could take some time as LLM generates the answer for the given query...", show_time=True):

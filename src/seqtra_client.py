@@ -31,12 +31,22 @@ class SeqtraClient:
     def ingest(self, input_dir: str):
         print("Ingestion: This can take time for uploading and ingesting the data into our database...")
         file_paths = glob.glob(os.path.join(input_dir, "*.pdf"))
+        if not file_paths:
+            raise Exception("No files submitted")
         file_resp, time = upload_multiple_files(file_paths, os.path.join(self.url, "ingest"), headers=self.headers, extra_data=self.init_req_body)
         check_response(file_resp)
         self.file_resp = file_resp.json()["message"]
         print(self.file_resp)
         print("Ingestion time:", time)
         
+    def ingest_bytes(self, filenames: list, file_bytes: list):
+        if not filenames and not file_bytes:
+            raise Exception("No files submitted")
+        file_resp, time = upload_multiple_files(filenames, os.path.join(self.url, "ingest"), headers=self.headers, extra_data=self.init_req_body, bytes_data=file_bytes)
+        check_response(file_resp)
+        self.file_resp = file_resp.json()["message"]
+        print(self.file_resp)
+        print("Ingestion time:", time)
         
     def query(self, query: str, num_seed_nodes: int = 1, chunk_only: bool = True, strategy: str = "graph_extended"):
         
