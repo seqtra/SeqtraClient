@@ -5,6 +5,6 @@ llm: claude
 llm_key: Your Claude API Key
 file_dir: ./Files
 query: How can the Board and the CCO manage control functions?
-num_seed_nodes: 1
+num_seed_nodes: 2
 chunk_only: false
 strategy: graph_extended

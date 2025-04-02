@@ -13,12 +13,13 @@ st.set_page_config(layout="wide")
 cols = st.columns([0.9, 0.1])
 cols[1].button("Clear", type="primary", use_container_width=True)
 st.write("# Welcome to Seqtra! 👋")
+st.write("Read our documentation at: https://github.com/seqtra/SeqtraClient")
+st.write("Generate Seqtra API keys at https://app.seqtra.com/")
 
 try:
     with st.sidebar:
         st.write("## Set up all options properly before submitting ")
-        #file_dir = st.text_input("File Directory Path: ", req_cfg.file_dir, help="Folder path where the PDF files to be uploaded are stored. Please note that we have 100 total page (single or multiple PDFs) limit currently.")
-        uploaded_files = st.file_uploader("Choose files to upload", type="pdf", accept_multiple_files=True)
+        uploaded_files = st.file_uploader("Choose files to upload", type="pdf", accept_multiple_files=True, help="Please note that we have 100 total page (single or multiple PDFs) limit currently.")
         filenames = []
         file_bytes = []
         if uploaded_files:
@@ -28,7 +29,7 @@ try:
                 file_bytes.append(bytes_data)
             
         st.session_state.is_llm_disabled = True
-        api_token = st.text_input("Seqtra API key: ", req_cfg.api_token)
+        api_token = st.text_input("Seqtra API key: ", req_cfg.api_token, help="Please generate API keys at https://app.seqtra.com/")
         project_name = st.text_input("Project Name:", req_cfg.project_name, help="Project name for your current file collection.  Make sure to change this in order to not mix up your personal files with already existing test file or to segregate the knowledge base according to data or application domain. This will also avoid unintentionally reducing the page limit available.")
         chunk_opt = st.selectbox("Chunk Only?", options=["True", "False"], help="If true, LLM is not used to generate chunk summary")
         chunk_opt = True if chunk_opt == "True" else False
@@ -36,11 +37,13 @@ try:
             st.session_state.is_llm_disabled = False
         llm_opt = st.selectbox("Choose your LLM:", options=["claude", "openai"], help="Only two options available at the moment", disabled=st.session_state.is_llm_disabled)
         llm_token = st.text_input(f"Your {llm_opt} API Key:", req_cfg.llm_key, disabled=st.session_state.is_llm_disabled)
-        num_seed_nodes = st.number_input("Number of seed nodes:", req_cfg.num_seed_nodes, help="his is equivalent to topk parameter in RAG. It is named so in our service, due to the presence of graph linkages and traversal during chunking and retrieval. You may optimize this for your use case.")
+        num_seed_nodes = st.number_input("Number of seed nodes:", min_value=1, max_value=20, value=req_cfg.num_seed_nodes, help="This is equivalent to topk parameter in RAG. It is named so in our service, due to the presence of graph linkages and traversal during chunking and retrieval. You may optimize this for your use case.")
         strategy = st.selectbox("Select your retrieval strategy: ", options=["seed_only", "seed_extended", "graph", "graph_extended",], index=3, help="For more details, check Readme.")
-        save_resp = st.checkbox("Save respose as JSON file?")
+        if not strategy:
+            raise Exception("Select one of the available strategies")
         st.session_state.ingested = False
-        if st.button("Delete Project", type="primary", help="Deletes the project named under Project Name"):
+        st.markdown("Delete Project: ", help="It will delete files uploaded previously along with associated graphs. When uploading new documents not associated with previous project, please delete project or create new project.")
+        if st.button("Delete", type="primary", help="It will delete files uploaded previously along with associated graphs. When uploading new documents not associated with previous project, please delete project or create new project."):
             message = SeqtraClient.remove(url=req_cfg.url, project_name=project_name, api_token=api_token)
             st.success(message)
     query = st.text_area("Your Query:", req_cfg.query)
@@ -74,11 +77,6 @@ try:
         if query_resp["answer"]:
             with st.chat_message("assistant"):
                 st.markdown(query_resp["answer"])
-        if save_resp:
-            save_file =  f"results/resp_{strategy}_{datetime.datetime.now()}.json"
-            with open(save_file, "w") as fp:
-                json.dump(query_resp, fp)
-            st.write(f"Response saved to {save_file}")
         st.write("### Visualization of Chunks relevant to the Query")
         visualize_graph(graph, query_resp["chunks"])
 except Exception as e:
