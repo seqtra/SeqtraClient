@@ -26,7 +26,7 @@ Create an environment and do:
 
 To use Seqtra's services, you'll need to obtain a free API key:
 
-1. Visit [www.app.seqtra.com](https://www.app.seqtra.com)
+1. Visit [app.seqtra.com](https://app.seqtra.com)
 2. Create an account or log in to your existing account
 3. Navigate to the API section in your dashboard
 4. Generate a new API key
