@@ -81,7 +81,7 @@ def visualize_graph(graph, chunks):
     id2chunk = {v: k for k,v in chunks.items()}
     p_graph = {
         "nodes": [{"data": {"chunk_id": id2chunk[n["id"]] , **{k:v for k, v in n.items()}} if n["label"] == "chunk" else n} for n in graph["nodes"]],
-        "edges": [{"data": {"id": uuid.uuid4().hex, "source": n["sourceId"], "target": n["targetId"], "label": n["label"]}} for n in graph["edges"]]
+        "edges": [ {"data": {"id": uuid.uuid4().hex, "source": n["sourceId"], "target": n["targetId"], "label": n["label"]}} for n in graph["edges"]]
     }
     node_styles = [
         NodeStyle("chunk", "#FF7F3E",caption="chunk_id", icon="description"),
