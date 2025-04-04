@@ -46,7 +46,7 @@ try:
         if st.button("Delete", type="primary", help="It will delete files uploaded previously along with associated graphs. When uploading new documents not associated with previous project, please delete project or create new project."):
             message = SeqtraClient.remove(url=req_cfg.url, project_name=project_name, api_token=api_token)
             st.success(message)
-    query = st.text_area("Your Query:", req_cfg.query)
+    query = st.text_area("Your Query:", placeholder="Enter your query here..")
     if st.button("Submit", type="primary"):
         if not filenames:
             raise Exception("No Files uploaded")
