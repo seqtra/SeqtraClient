@@ -79,5 +79,6 @@ try:
                 st.markdown(query_resp["answer"])
         st.write("### Visualization of Chunks relevant to the Query")
         visualize_graph(graph, query_resp["chunks"])
+        seqtra.end_session()
 except Exception as e:
     st.error(str(e))

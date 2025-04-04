@@ -2,7 +2,8 @@
 
 # SeqtraClient
 
-Seqtra combines chunking and retrieving in one stage, i.e. chunking only with respect to the query during retrieval rather than defining chunk boundary during the ingestion phase. This strategy is known as late chunking in literature. Please note that we only accept PDFs for now.
+Chunking plays an important role in Retrieval Augmented Generation (RAG) in order to index the textual data in an appropriate format for retrieval. The size of chunks are usually predetermined, i.e. set or limited by a fixed size during the data ingestion phase. Seqtra combines chunking and retrieving in one stage, i.e. chunking only with respect to the query during retrieval rather than defining chunk boundary during the ingestion phase, making the chunk sizes dynamic and adapted to the query. This strategy is known as late chunking in literature. Seqtra constructs and utilizes graph-based relationships in order to chunk the documents.<br>
+Please note that we only accept PDFs for now.
 
 ## Setup
 

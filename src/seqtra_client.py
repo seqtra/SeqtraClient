@@ -65,16 +65,23 @@ class SeqtraClient:
         print("Query time:", time)
         
         return query_response.json()
+    
+    def end_session(self):
+        session_response = delete_request(os.path.join(self.url, "end_session", self.project_name), headers=self.headers)
+        check_response(session_response)
+        session_status = session_response.json()["message"]
+        print(session_status)
+        
     @staticmethod
     def remove(url, project_name, api_token):
         print("Removing project from the server...")
         headers = {
             "Seqtra-token": api_token
         }
-        resp = delete_request(url, project_name, headers)
+        resp = delete_request(os.path.join(url, "delete", project_name), headers)
         check_response(resp)
-        print(resp.json()["message"])
         
         return resp.json()["message"]
+    
         
         

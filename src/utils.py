@@ -70,8 +70,7 @@ def check_response(resp):
         message = resp["detail"] if resp.get("detail") else resp["message"]
         raise Exception(message)
     
-def delete_request(url, project_name, headers):
-    complete_url = os.path.join(url, "delete", project_name)
+def delete_request(complete_url, headers=None):
     
     response = requests.delete(complete_url, headers=headers)
     
