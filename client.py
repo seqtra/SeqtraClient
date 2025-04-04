@@ -27,6 +27,9 @@ with open(save_file, "w") as fp:
     
 print(f"Response saved to {save_file}")
 
+#End session
+seqtra.end_session()
+
 # To delete use the following line of code
 #SeqtraClient.remove(url=req_cfg.url, project_name=req_cfg.project_name, api_token=req_cfg.api_token)
 
