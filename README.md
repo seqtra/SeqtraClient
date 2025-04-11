@@ -44,6 +44,12 @@ Run the following:
 ```
 
 ## Using Code
+### Try in Google Colab
+<a target="_blank" href="https://colab.research.google.com/github/seqtra/SeqtraClient/blob/main/client.ipynb" >
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+### Try using client.py
 
 (The following description also applies to fields you see on UI)<br>
 In config/request.yaml file:
