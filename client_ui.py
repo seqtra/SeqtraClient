@@ -37,10 +37,10 @@ try:
             st.session_state.is_llm_disabled = False
         llm_opt = st.selectbox("Choose your LLM:", options=["claude", "openai"], help="Only two options available at the moment", disabled=st.session_state.is_llm_disabled)
         llm_token = st.text_input(f"Your {llm_opt} API Key:", req_cfg.llm_key, disabled=st.session_state.is_llm_disabled)
-        num_seed_nodes = st.number_input("Number of seed nodes:", min_value=1, max_value=20, value=req_cfg.num_seed_nodes, help="This is equivalent to topk parameter in RAG. It is named so in our service, due to the presence of graph linkages and traversal during chunking and retrieval. You may optimize this for your use case.")
-        strategy = st.selectbox("Select your retrieval strategy: ", options=["seed_only", "seed_extended", "graph", "graph_extended",], index=3, help="For more details, check Readme.")
-        if not strategy:
-            raise Exception("Select one of the available strategies")
+        #num_seed_nodes = st.number_input("Number of seed nodes:", min_value=1, max_value=20, value=req_cfg.num_seed_nodes, help="This is equivalent to topk parameter in RAG. It is named so in our service, due to the presence of graph linkages and traversal during chunking and retrieval. You may optimize this for your use case.")
+        #strategy = st.selectbox("Select your retrieval strategy: ", options=["seed_only", "seed_extended", "graph", "graph_extended",], index=3, help="For more details, check Readme.")
+        #if not strategy:
+        #    raise Exception("Select one of the available strategies")
         st.session_state.ingested = False
         st.markdown("Delete Project: ", help="It will delete files uploaded previously along with associated graphs. When uploading new documents not associated with previous project, please delete project or create new project.")
         if st.button("Delete", type="primary", help="It will delete files uploaded previously along with associated graphs. When uploading new documents not associated with previous project, please delete project or create new project."):
@@ -62,16 +62,16 @@ try:
             with st.spinner("This could take some time as LLM generates the answer for the given query...", show_time=True):
                 query_resp = seqtra.query(
                     query = query, 
-                    num_seed_nodes = num_seed_nodes,
+                    num_seed_nodes = req_cfg.num_seed_nodes,
                     chunk_only = chunk_opt, 
-                    strategy = strategy
+                    strategy = req_cfg.strategy
                 )
         else:
             query_resp = seqtra.query(
                 query = query, 
-                num_seed_nodes = num_seed_nodes,
+                num_seed_nodes = req_cfg.num_seed_nodes,
                 chunk_only = chunk_opt, 
-                strategy = strategy
+                strategy = req_cfg.strategy
             )
         graph = query_resp["graph"]
         if query_resp["answer"]:

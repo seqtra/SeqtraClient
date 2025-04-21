@@ -84,11 +84,13 @@ def visualize_graph(graph, chunks):
     }
     node_styles = [
         NodeStyle("chunk", "#FF7F3E",caption="chunk_id", icon="description"),
-        NodeStyle("topic", "#2A629A", caption="text", icon="inventory"),
+        NodeStyle("keyword", "#2A629A", caption="text", icon="inventory"),
+        NodeStyle("query", "#008000", caption="label", icon="person"),
     ]
 
     edge_styles = [
-        EdgeStyle("common_topic_of", color="#2A629A", caption='label', directed=True, curve_style="haystack"),
+        EdgeStyle("relevant_chunk", color="#2A629A", caption='label', directed=True, curve_style="haystack"),
         EdgeStyle("has_link", color="#FF7F3E", caption='label', directed=True, curve_style="haystack"),
+        EdgeStyle("has_keyword", color="#008000", caption='label', directed=True, curve_style="haystack"),
     ]
     st_link_analysis(p_graph,"cola", node_styles, edge_styles)
